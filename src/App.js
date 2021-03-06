@@ -15,12 +15,12 @@ const App = () =>  {
      e.preventDefault()
      if(!newTodo.trim()) return;
      setTodos([
-       ...todos,
        {
-         id : todos.length + 1,
+         id : todos.length ? todos[todos.length - 1].id + 1 : 1,
          content : newTodo,
          done : false,
-       }
+       },
+       ...todos
      ]);
      setNewTodo('');
   }, [newTodo, todos]);
@@ -41,6 +41,11 @@ const App = () =>  {
     setTodos(newTodos);
   }, [todos]);
 
+
+  const removeTodo = useCallback((todo) => (e) => {
+    setTodos(todos.filter(otherTodo => otherTodo !== todo));
+  }, [todos]);
+
   return (
     <div className="App">
        <form onSubmit = {formSubmitted}>
@@ -55,13 +60,15 @@ const App = () =>  {
        </form>
           <ul>
              {todos.map((todo, index) => (
-               <li key = {todo.id} className = {todo.done ? 'done' : ''}>
+               <li key = {todo.id} >
                  <input 
                    checked = {todo.done}
                    type = "checkbox"
                    onChange = {addTodo(todo, index)}  
                  />
-                <span>{todo.content}</span> 
+                {/* <span className = {['todo-text','other' ,todo.done ? 'done' : ''].join(' ')}>{todo.content}</span>  */}
+                <span className = {todo.done ? 'done' : ''}>{todo.content}</span>
+                <button onClick = {removeTodo(todo)}>Remove Todo</button>
                </li>
              ))}
           </ul>

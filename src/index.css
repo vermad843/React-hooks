@@ -17,7 +17,6 @@ input, textarea, button, p, div, section, article, select {
 }
 
 
-
-input[type="checkbox"] {
-  transform: scale(200%);
+.done {
+  text-decoration: line-through;
 }
