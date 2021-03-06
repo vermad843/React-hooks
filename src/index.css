@@ -19,3 +19,8 @@ input, textarea, button, p, div, section, article, select {
 .done {
   text-decoration: line-through;
 }
+
+
+input[type="checkbox"] {
+  font-size : 5rem;
+}

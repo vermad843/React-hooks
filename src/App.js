@@ -45,6 +45,7 @@ const App = () =>  {
           <ul>
              {todos.map((todo) => (
                <li key = {todo.id}>
+                 <input type = "checkbox"/>
                  {todo.content}
                </li>
              ))}
