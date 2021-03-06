@@ -1,24 +1,54 @@
-import React, {useState,useCallback} from 'react'
+import React, {useState,useCallback, useEffect} from 'react'
 
 import './App.css';
 
 const App = () =>  {
-  const [name, setName] = useState('CJ');
+  const [newTodo, setNewTodo] = useState('');
+  const [todos, setTodos] = useState([]);
 
-const onNameChange = useCallback((e) => {
-  setName(e.target.value);
-}, []);
+
+  const onNewTodoChange = useCallback((e) => {
+    setNewTodo(e.target.value);
+  }, []);
+  
+  const formSubmitted = useCallback((e) => {
+     e.preventDefault();
+     setTodos([
+       ...todos,
+       {
+         id : todos.length + 1,
+         content : newTodo,
+         done : false,
+       }
+     ]);
+     setNewTodo('');
+  }, [newTodo, todos]);
+
+ 
+  useEffect(() => {
+    console.log('todos', todos);
+   
+  },[todos]);
 
   return (
     <div className="App">
-       <form>
-            <label>Enter your name:</label>
-            <input 
-              value = {name}
-              onChange = {onNameChange}
+       <form onSubmit = {formSubmitted}>
+            <label htmlFor = "newTodo">Enter a Todo:</label>
+            <input
+              id = "newTodo"
+              name = "newTodo" 
+              value = {newTodo}
+              onChange = {onNewTodoChange}
              />
+             <button type = "submit">Add Todo</button>
        </form>
-       <h1>Hello {name}</h1>
+          <ul>
+             {todos.map((todo) => (
+               <li key = {todo.id}>
+                 {todo.content}
+               </li>
+             ))}
+          </ul>
     </div>
   );
 }
